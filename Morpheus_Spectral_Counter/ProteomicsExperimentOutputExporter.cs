@@ -17,7 +17,6 @@ namespace Morpheus_Spectral_Counter
 
         public static void Export(ProteomicsExperimentRun per, string outputdirectory)
         {
-            // Because the ExperimentID is a full filepath it will save these individual Summarys in the Same File path as their sourcefiles
             string outputfile = Path.Combine(outputdirectory, (per.ExperimentId + outputFileLabel));
             using (StreamWriter sw = new StreamWriter(outputfile))
             {

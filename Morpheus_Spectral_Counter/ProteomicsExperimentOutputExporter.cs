@@ -12,13 +12,14 @@ namespace Morpheus_Spectral_Counter
     {
         private const string delimiter = "\t";
         private const char chardelimiter = '\t';
-        private const string outputFileSummaryLabel = "_NSAF_Sumary.tsv";
+        private const string outputFileLabel = "_NSAF_Sumary.tsv";
+        private const string outputSummaryFileLabel = "NSAF_Summary.tsv";
 
         public static void Export(ProteomicsExperimentRun per, string outputdirectory)
         {
             // Because the ExperimentID is a full filepath it will save these individual Summarys in the Same File path as their sourcefiles
-            string outputfileSummary = Path.Combine(outputdirectory, (per.ExperimentId + outputFileSummaryLabel));
-            using (StreamWriter sw = new StreamWriter(outputfileSummary))
+            string outputfile = Path.Combine(outputdirectory, (per.ExperimentId + outputFileLabel));
+            using (StreamWriter sw = new StreamWriter(outputfile))
             {
                 sw.WriteLine(per.ExperimentId);
                 StringBuilder header = new StringBuilder();
@@ -144,8 +145,8 @@ namespace Morpheus_Spectral_Counter
                 }
             }
 
-           
-            using (StreamWriter sw2 = new StreamWriter(outputdirectory + "\\" + "NSAF_Summary_All.tsv"))
+            string outputfile = Path.Combine(outputdirectory, outputSummaryFileLabel);
+            using (StreamWriter sw2 = new StreamWriter(outputfile))
             {
                 sw2.WriteLine(proteomicExperimentLabels);
                 sw2.WriteLine(header);
@@ -297,8 +298,8 @@ namespace Morpheus_Spectral_Counter
                 }
             }
 
-           
-            using (StreamWriter sw2 = new StreamWriter(outputdirectory + "\\" + "NSAF_Summary_All.tsv"))
+            string outputfile = Path.Combine(outputdirectory, outputSummaryFileLabel);
+            using (StreamWriter sw2 = new StreamWriter(outputfile))
             {
                 sw2.WriteLine(proteomicExperimentLabels);
                 sw2.WriteLine(header);

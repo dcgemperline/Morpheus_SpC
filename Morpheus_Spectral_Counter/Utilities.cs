@@ -74,13 +74,13 @@ namespace Morpheus_Spectral_Counter
         {
             // Select the Summary File to get all the files that were run together
             string baseDirectory = msf.SummaryFilePath;
-            string psmFileToOpen = baseDirectory + "\\" + "PSMs.tsv";
-            string proteinGroupFileToOpen = baseDirectory + "\\" + "protein_groups.tsv";
+            string psmFileToOpen = Path.Combine(baseDirectory, "PSMs.tsv");
+            string proteinGroupFileToOpen = Path.Combine(baseDirectory, "protein_groups.tsv");
 
             if (msf.NumberOfFilesInSummaryFile == 1)
             {
-                psmFileToOpen = baseDirectory + "\\" + msf.ProteomicsExperimentRunsInSummaryFile.ElementAt(0).ExperimentId + ".PSMs.tsv";
-                proteinGroupFileToOpen = baseDirectory + "\\" + msf.ProteomicsExperimentRunsInSummaryFile.ElementAt(0).ExperimentId + ".protein_groups.tsv";
+                psmFileToOpen = Path.Combine(baseDirectory, (msf.ProteomicsExperimentRunsInSummaryFile.ElementAt(0).ExperimentId + ".PSMs.tsv"));
+                proteinGroupFileToOpen = Path.Combine(baseDirectory, (msf.ProteomicsExperimentRunsInSummaryFile.ElementAt(0).ExperimentId + ".protein_groups.tsv"));
             }
 
             ProteomicsExperimentRunSummary persummary = new ProteomicsExperimentRunSummary();

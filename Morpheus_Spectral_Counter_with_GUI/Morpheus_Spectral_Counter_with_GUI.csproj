@@ -108,12 +108,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Morpheus_Spectral_Counter\Morpheus_Spectral_Counter\Morpheus_Spectral_Counter.csproj">
-      <Project>{56db7e53-1f08-4cc9-8da6-25d42ec5ca15}</Project>
-      <Name>Morpheus_Spectral_Counter</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
@@ -129,6 +123,15 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Morpheus_Spectral_Counter\Morpheus_Spectral_Counter.csproj">
+      <Project>{56db7e53-1f08-4cc9-8da6-25d42ec5ca15}</Project>
+      <Name>Morpheus_Spectral_Counter</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

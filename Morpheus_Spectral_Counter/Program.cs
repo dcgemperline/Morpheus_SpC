@@ -11,17 +11,17 @@ namespace Morpheus_Spectral_Counter
         //reworking multiple file parsimony
         static void Main(string[] args)
         {
-            List<string> fileListToProcess = new List<string>();
-            string line;
-            System.IO.StreamReader file = new StreamReader(args[0]);
-            while ((line = file.ReadLine()) != null)
-            {
-                fileListToProcess.Add(line);
-            }
-            file.Close();
+            //List<string> fileListToProcess = new List<string>();
+            //string line;
+            //System.IO.StreamReader file = new StreamReader(args[0]);
+            //while ((line = file.ReadLine()) != null)
+            //{
+            //    fileListToProcess.Add(line);
+            //}
+            //file.Close();
 
-            foreach (string s in fileListToProcess)
-            {
+            //foreach (string s in fileListToProcess)
+            //{
                 //Console.WriteLine("MorpheusSpectralCounter");
                 /*
                 string basefiletoread = s;
@@ -36,7 +36,7 @@ namespace Morpheus_Spectral_Counter
                 whiteListedProteomicsExperimentRun = Utilities.FilterProteomicsExperimentByWhiteListForOutput(proteomicsexperimentrun, Utilities.GetWhitelist("whitelist"));
                 ProteomicsExperimentOutputExporter.Export(whiteListedProteomicsExperimentRun);
                  */
-            }
+            //}
             
         }
     }

@@ -12,11 +12,13 @@ namespace Morpheus_Spectral_Counter
     {
         private const string delimiter = "\t";
         private const char chardelimiter = '\t';
+        private const string outputFileSummaryLabel = "_NSAF_Sumary.tsv";
 
         public static void Export(ProteomicsExperimentRun per, string outputdirectory)
         {
             // Because the ExperimentID is a full filepath it will save these individual Summarys in the Same File path as their sourcefiles
-            using (StreamWriter sw = new StreamWriter(outputdirectory + "\\" + per.ExperimentId + "_NSAF_Summary.tsv"))
+            string outputfileSummary = Path.Combine(outputdirectory, (per.ExperimentId + outputFileSummaryLabel));
+            using (StreamWriter sw = new StreamWriter(outputfileSummary))
             {
                 sw.WriteLine(per.ExperimentId);
                 StringBuilder header = new StringBuilder();

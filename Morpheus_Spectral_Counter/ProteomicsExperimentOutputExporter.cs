@@ -205,6 +205,14 @@ namespace Morpheus_Spectral_Counter
                                 {
                                     // Some special logic if whitelist isnt found needs to go here. Need to handle this somehow
                                     string stringtolookup = pgId.Split('.')[0];
+
+                                    // DJB edit
+                                    //string outputString = "";
+                                    //per.WhitelistDictionary.TryGetValue(stringtolookup, out outputString);
+
+                                    // DJB Edit
+
+
                                     sb.Append(Utilities.LookupWhiteListedBasedonId(per.WhitelistDictionary, stringtolookup));
                                     //sb.Append(notfound);
                                     sb.Append(delimiter);

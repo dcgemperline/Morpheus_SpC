@@ -14,7 +14,7 @@ namespace Morpheus_Spectral_Counter
         public int PrecurserCharge { get; set; }
         public double PrecurserMass { get; set; }
         public double PrecurserIntensity { get; set; }
-        public string PeptideBaseSequence { get; set; }
+        public string PeptideBaseSequence { get; set; } // convert i to l //DCGEDIT not neccesary as morpheus doesnt report peptides with I to L but reports as I or L based on fasta sequence
         public string ProteinDescription { get; set; }
         public int MissedCleavages { get; set; }
         public double MatchingIntensity { get; set; }

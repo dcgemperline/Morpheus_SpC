@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using Morpheus_Spectral_Counter;
+using Morpheus_Spectral_Counter_with_GUI;
 
 namespace Morpheus_Spectral_Count_with_GUI
 {
@@ -45,6 +46,7 @@ namespace Morpheus_Spectral_Count_with_GUI
             backgroundWorker1.WorkerReportsProgress = true;
             backgroundWorker1.ProgressChanged += new ProgressChangedEventHandler(backgroundWorker1_ProgressChanged);
             backgroundWorker1.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundWorker1_RunWorkerCompleted);
+            button5.Enabled = true;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -68,6 +70,7 @@ namespace Morpheus_Spectral_Count_with_GUI
 
                 textBox1.BackColor = System.Drawing.Color.White;
                 textBox1.AppendText(sb.ToString());
+                button5.Enabled = true;
                 button3.Enabled = true;
                 AnalysisDirectory = Path.GetDirectoryName(SummaryFileToProcess);
             }
@@ -180,6 +183,7 @@ namespace Morpheus_Spectral_Count_with_GUI
             groupBox3.Enabled = false;
             groupBox4.Enabled = false;
             button3.Enabled = false;
+            button5.Enabled = false;
         }
 
         public static string FileSelector(string fileFilter, TextBox textbox)
@@ -283,6 +287,12 @@ namespace Morpheus_Spectral_Count_with_GUI
             groupBox3.Enabled = true;
             groupBox4.Enabled = true;
             button3.Enabled = true;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Form2 frm2 = new Form2();
+            frm2.Show();
         }
     }
 }

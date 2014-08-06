@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExperimentalDesign.cs" />
     <Compile Include="IQValue.cs" />
     <Compile Include="LabelFreeQuantifiedProteomicsRun.cs" />
     <Compile Include="MorpheusSummaryFile.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="ProteinGroupList.cs" />
     <Compile Include="ProteomicsExperimentRun.cs" />
     <Compile Include="ProteomicsExperimentOutputExporter.cs" />
+    <Compile Include="ProteomicsExperimentRunBioAndTechRepLabeled.cs" />
     <Compile Include="ProteomicsExperimentRunSummary.cs" />
     <Compile Include="PSM.cs" />
     <Compile Include="PSMList.cs" />
@@ -90,6 +92,7 @@
     <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Morpheus_Spectral_Counter_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

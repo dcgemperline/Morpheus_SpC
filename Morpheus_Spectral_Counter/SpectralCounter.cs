@@ -160,5 +160,10 @@ namespace Morpheus_Spectral_Counter
             }
             ProteomicsExperimentOutputExporter.ExportNsafSummary(Proteomicrunlist, outputdirectory);
         }
+
+        public void SummarizeDataFromSummaryFilebyExperimentalDesign(MorpheusSummaryFile msf, string outputdirectory, ExperimentalDesign experimentalDesign)
+        {
+            
+        }
     }
 }

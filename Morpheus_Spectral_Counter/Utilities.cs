@@ -44,7 +44,8 @@ namespace Morpheus_Spectral_Counter
             System.IO.StreamReader file2 = new System.IO.StreamReader(proteinGroupFileToOpen);
             //Strip header (Remove first line)
             file2.ReadLine();
-            string[] splitOn = {"; "};
+            string[] splitOn = {";; "};
+            string[] splitOnSequenceCoverage = { "; " };
             while ((line = file2.ReadLine()) != null)
             {
                 string [] dataline = line.Split('\t');
@@ -52,7 +53,7 @@ namespace Morpheus_Spectral_Counter
                 pg.QValue = Double.Parse(dataline[14]);
                 string[] proteins = dataline[0].Split(splitOn, StringSplitOptions.None);
                 string[] proteinseq = dataline[1].Split(splitOn, StringSplitOptions.None);
-                string[] seqcoverages = dataline[8].Split(splitOn, StringSplitOptions.None);
+                string[] seqcoverages = dataline[8].Split(splitOnSequenceCoverage, StringSplitOptions.None);
                 for (int index = 0; index < proteins.Length; index++)
                 {
                     Protein p = new Protein
@@ -136,7 +137,8 @@ namespace Morpheus_Spectral_Counter
             System.IO.StreamReader file2 = new System.IO.StreamReader(proteinGroupFileToOpen);
             //Strip header (Remove first line)
             file2.ReadLine();
-            string[] splitOn = { "; " };
+            string[] splitOn = { ";; " };
+            string[] splitOnSequenceCoverage = {"; "};
             while ((line = file2.ReadLine()) != null)
             {
                 string[] dataline = line.Split('\t');
@@ -144,13 +146,14 @@ namespace Morpheus_Spectral_Counter
                 pg.QValue = Double.Parse(dataline[14]);
                 string[] proteins = dataline[0].Split(splitOn, StringSplitOptions.None);
                 string[] proteinseq = dataline[1].Split(splitOn, StringSplitOptions.None);
-                string[] seqcoverages = dataline[8].Split(splitOn, StringSplitOptions.None);
+                string[] seqcoverages = dataline[8].Split(splitOnSequenceCoverage, StringSplitOptions.None);
                 for (int index = 0; index < proteins.Length; index++)
                 {
                     Protein p = new Protein
                     {
                         ProteinId = proteins[index],
                         Sequence = proteinseq[index],
+                        //Problem here, when adding sequence coverage, need to split based on ; as well
                         SequenceCoverage = double.Parse(seqcoverages[index])
                     };
                     pg.ProteingroupList.Add(p);

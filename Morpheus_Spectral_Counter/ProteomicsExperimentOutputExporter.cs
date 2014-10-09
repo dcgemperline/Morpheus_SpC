@@ -258,8 +258,6 @@ namespace Morpheus_Spectral_Counter
 
         public static void ExportNsafSummary(List<ProteomicsExperimentRun> perlist, string outputdirectory)
         {
-            //Remove Some Proteomics Experiment Runs if they are summaries / fractionations and Call the ExportNsafSummary again with special params
-
             /*
              * Keep in mind refactoring causes this to be much less efficient as we loop through so many more times)
              * 

@@ -14,6 +14,7 @@ namespace Morpheus_Spectral_Counter
         public string SummaryFileIdentifier { get; set; }
         public string SummaryFilePath { get; set; }
         public List<ProteomicsExperimentRun> ProteomicsExperimentRunsInSummaryFile = new List<ProteomicsExperimentRun>();
+        public List<ProteomicsExperimentRunBioAndTechRepLabeled> ProteomicsExperimentRunsInSummaryFileBioandTechRepLabeled = new List<ProteomicsExperimentRunBioAndTechRepLabeled>(); 
         public int NumberOfFilesInSummaryFile { get { return ProteomicsExperimentRunsInSummaryFile.Count(); } }
         //Ctor
         public MorpheusSummaryFile(string filename)
@@ -32,6 +33,17 @@ namespace Morpheus_Spectral_Counter
                     ProteomicsExperimentRun per = new ProteomicsExperimentRun();
                     per.RawFileName = Path.GetFileName(dataline[0]);
                     per.ExperimentId = Path.GetFileNameWithoutExtension(dataline[0]);
+                    /*
+                    if (per.RawFileName.Contains("*"))
+                    {
+                        per.RawFileName = per.RawFileName.Replace("*", "");
+                    }
+                    if (per.ExperimentId.Contains("*"))
+                    {
+                        per.ExperimentId = per.ExperimentId.Replace("*", "");
+                    }
+                     */
+
                     ProteomicsExperimentRunsInSummaryFile.Add(per);
                 }
                 

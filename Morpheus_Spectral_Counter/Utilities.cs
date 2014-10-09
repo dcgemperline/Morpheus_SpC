@@ -138,7 +138,7 @@ namespace Morpheus_Spectral_Counter
             //Strip header (Remove first line)
             file2.ReadLine();
             string[] splitOn = { ";; " };
-            string[] splitOnSequenceCoverage = {"; "};
+            string[] splitOnSequenceCoverage = {";; "};
             while ((line = file2.ReadLine()) != null)
             {
                 string[] dataline = line.Split('\t');
@@ -306,6 +306,9 @@ namespace Morpheus_Spectral_Counter
             return ((double)psmsWithMissedCleavagesCounter / per.PsmList.PeptideSpectraMatchListist.Count) * 100;
         }
 
+
+        //This is really inefficient to pass using serialization.
+        //Maybe try and implement something else
         public static T DeepClone<T>(this T a)
         {
             using (MemoryStream stream = new MemoryStream())

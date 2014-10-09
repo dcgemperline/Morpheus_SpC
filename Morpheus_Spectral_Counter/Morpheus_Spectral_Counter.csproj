@@ -70,10 +70,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Experiment.cs" />
     <Compile Include="ExperimentalDesign.cs" />
     <Compile Include="IQValue.cs" />
     <Compile Include="LabelFreeQuantifiedProteomicsRun.cs" />
     <Compile Include="MorpheusSummaryFile.cs" />
+    <Compile Include="MorpheusSummaryFileLabeledForExperiments.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protein.cs" />

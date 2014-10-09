@@ -18,6 +18,12 @@ namespace Morpheus_Spectral_Counter
         public static void Export(ProteomicsExperimentRun per, string outputdirectory)
         {
             string outputfile = Path.Combine(outputdirectory, (per.ExperimentId + outputFileLabel));
+            
+            if (outputfile.Contains("*"))
+            {
+                outputfile = outputfile.Replace("*", "");
+            }
+            
             using (StreamWriter sw = new StreamWriter(outputfile))
             {
                 sw.WriteLine(per.ExperimentId);
@@ -252,14 +258,44 @@ namespace Morpheus_Spectral_Counter
 
         public static void ExportNsafSummary(List<ProteomicsExperimentRun> perlist, string outputdirectory)
         {
-            //OpenFileForWriting
+            //Remove Some Proteomics Experiment Runs if they are summaries / fractionations and Call the ExportNsafSummary again with special params
+
+            /*
+             * Keep in mind refactoring causes this to be much less efficient as we loop through so many more times)
+             * 
+             * 
+             * 
+             */
 
 
-            List<String> uniqueProteinGroups = new List<String>();
-            StringBuilder proteomicExperimentLabels = new StringBuilder();
+            //GetList of unique proteins in summary to make output nice
+            List<String> uniqueProteinGroups = GenerateUniqueListofProteinGroups(perlist);
+
+            //Setup Header
+            StringBuilder header = BuildOutputHeader(perlist);
+
+            //Setup ExperimentLabels Appropriately
+            StringBuilder proteomicExperimentLabels = SetProteomicExperimentLabels(perlist, header);
+            
+
+            //Start Writing File
+            string outputfile = Path.Combine(outputdirectory, outputSummaryFileLabel);
+            using (StreamWriter sw2 = new StreamWriter(outputfile))
+            {
+                sw2.WriteLine(proteomicExperimentLabels);
+                sw2.WriteLine(header);
+                //Loop through uniqueids to make the output nice
+                foreach (String pgId in uniqueProteinGroups)
+                {
+                    StringBuilder outputRow = BuildOutputRowforSummary(perlist, pgId);
+                    sw2.WriteLine(outputRow); //Write the data if we have it found based on the flags set
+                }
+            } //Endfileoutput
+        }
+
+        public static StringBuilder BuildOutputHeader(List<ProteomicsExperimentRun> perlist)
+        {
             StringBuilder header = new StringBuilder();
-
-            //Get spacing for proteomics experimentlabel
             foreach (ProteomicsExperimentRun per in perlist)
             {
                 header.Append("ProteinGroup" + delimiter);
@@ -284,17 +320,14 @@ namespace Morpheus_Spectral_Counter
                 {
                     header.Append("dNSAF" + delimiter);
                 }
-                foreach (ProteinGroup pg in per.ProteingroupList.Pglist)
-                {
-                    if (!uniqueProteinGroups.Contains(pg.ProteingroupId))
-                    {
-                        uniqueProteinGroups.Add(pg.ProteingroupId);
-                    }
-                }
             }
-            
-            //This spaces the ExperimentHeader Appropriately based on the output selected, uNSAF, NSAF, dNSAF etc
-            int spacing = ((header.ToString().Split(chardelimiter).Count()-1)/perlist.Count);
+            return header;
+        }
+
+        public static StringBuilder SetProteomicExperimentLabels(List<ProteomicsExperimentRun> perlist, StringBuilder header)
+        {
+            StringBuilder proteomicExperimentLabels = new StringBuilder();
+            int spacing = ((header.ToString().Split(chardelimiter).Count() - 1) / perlist.Count);
 
             foreach (ProteomicsExperimentRun per in perlist)
             {
@@ -304,103 +337,114 @@ namespace Morpheus_Spectral_Counter
                     proteomicExperimentLabels.Append(delimiter);
                 }
             }
+            return proteomicExperimentLabels;
+        }
 
-            string outputfile = Path.Combine(outputdirectory, outputSummaryFileLabel);
-            using (StreamWriter sw2 = new StreamWriter(outputfile))
+        public static StringBuilder BuildOutputRowforSummary(List<ProteomicsExperimentRun> perlist, string pgId)
+        {
+            StringBuilder outputRow = new StringBuilder();
+            foreach (ProteomicsExperimentRun per in perlist)
             {
-                sw2.WriteLine(proteomicExperimentLabels);
-                sw2.WriteLine(header);
-                foreach (String pgId in uniqueProteinGroups)
+                bool isfound = false;
+                foreach (ProteinGroup pg in per.ProteingroupList.Pglist)
                 {
-                    StringBuilder sb = new StringBuilder();
-                    foreach (ProteomicsExperimentRun per in perlist)
+                    if (pg.ProteingroupId == pgId)
                     {
-                        bool isfound = false;
-                        foreach (ProteinGroup pg in per.ProteingroupList.Pglist)
+                        isfound = true;
+                        ProteinGroup proteinGroupToWrite = pg;
+                        outputRow.Append(proteinGroupToWrite.ProteingroupId);
+                        outputRow.Append(delimiter);
+                        if (per.Whitelisted)
                         {
-                            if (pg.ProteingroupId == pgId)
-                            {
-                                isfound = true;
-                                ProteinGroup proteinGroupToWrite = pg;
-                                sb.Append(proteinGroupToWrite.ProteingroupId);
-                                sb.Append(delimiter);
-                                if (per.Whitelisted)
-                                {
-                                    sb.Append(proteinGroupToWrite.WhiteListName);
-                                    sb.Append(delimiter);
-                                }
-                                //sb.Append(proteinGroupToWrite.AverageSequenceCoverage);
-                                //sb.Append(delimiter);
-                                sb.Append(proteinGroupToWrite.UniquePsms);
-                                sb.Append(delimiter);
-                                sb.Append(proteinGroupToWrite.SharedPsms);
-                                sb.Append(delimiter);
-                                sb.Append(proteinGroupToWrite.TotalPsms);
-                                sb.Append(delimiter);
-                                sb.Append(proteinGroupToWrite.TotalCorrectedPsms);
-                                sb.Append(delimiter);
-                                if (per.OutputUNSAF)
-                                {
-                                    sb.Append(proteinGroupToWrite.NormalizedUniqueSpectralAbundanceFactor);
-                                    sb.Append(delimiter);
-                                }
-                                if (per.OutPutNSAF)
-                                {
-                                    sb.Append(proteinGroupToWrite.NormalizedSpectralAbundanceFactor);
-                                    sb.Append(delimiter);
-                                }
-                                if (per.OutputDNSAF)
-                                {
-                                    sb.Append(proteinGroupToWrite.NormalizedCorrectedSpectralAbundanceFactor);
-                                    sb.Append(delimiter);
-                                }
-                            }
+                            outputRow.Append(proteinGroupToWrite.WhiteListName);
+                            outputRow.Append(delimiter);
                         }
-                        if (isfound == false)
-                            {
-                                const string notfound = "0";
-                                //Write Zeros or #NA for the data output for that line.
-                                sb.Append(pgId);
-                                sb.Append(delimiter);
-                                if (per.Whitelisted)
-                                {
-                                    // Some special logic if whitelist isnt found needs to go here. Need to handle this somehow
-                                    string stringtolookup = pgId.Split('.')[0];
-                                    sb.Append(Utilities.LookupWhiteListedBasedonId(per.WhitelistDictionary, stringtolookup));
-                                    //sb.Append(notfound);
-                                    sb.Append(delimiter);
-                                }
-                                
-                                //sb.Append(notfound);
-                                //sb.Append(delimiter);
-                                sb.Append(notfound);
-                                sb.Append(delimiter);
-                                sb.Append(notfound);
-                                sb.Append(delimiter);
-                                sb.Append(notfound);
-                                sb.Append(delimiter);
-                                sb.Append(notfound);
-                                sb.Append(delimiter);
-                                if (per.OutputUNSAF)
-                                {
-                                    sb.Append(notfound);
-                                    sb.Append(delimiter);
-                                }
-                                if (per.OutPutNSAF)
-                                {
-                                    sb.Append(notfound);
-                                    sb.Append(delimiter);
-                                }
-                                if (per.OutputDNSAF)
-                                {
-                                    sb.Append(notfound);
-                                    sb.Append(delimiter);
-                                }
-                            }
+                        //sb.Append(proteinGroupToWrite.AverageSequenceCoverage);
+                        //sb.Append(delimiter);
+                        outputRow.Append(proteinGroupToWrite.UniquePsms);
+                        outputRow.Append(delimiter);
+                        outputRow.Append(proteinGroupToWrite.SharedPsms);
+                        outputRow.Append(delimiter);
+                        outputRow.Append(proteinGroupToWrite.TotalPsms);
+                        outputRow.Append(delimiter);
+                        outputRow.Append(proteinGroupToWrite.TotalCorrectedPsms);
+                        outputRow.Append(delimiter);
+                        if (per.OutputUNSAF)
+                        {
+                            outputRow.Append(proteinGroupToWrite.NormalizedUniqueSpectralAbundanceFactor);
+                            outputRow.Append(delimiter);
+                        }
+                        if (per.OutPutNSAF)
+                        {
+                            outputRow.Append(proteinGroupToWrite.NormalizedSpectralAbundanceFactor);
+                            outputRow.Append(delimiter);
+                        }
+                        if (per.OutputDNSAF)
+                        {
+                            outputRow.Append(proteinGroupToWrite.NormalizedCorrectedSpectralAbundanceFactor);
+                            outputRow.Append(delimiter);
+                        }
                     }
-                    sw2.WriteLine(sb); //Write the data if we have it found based on the flags set
-                } //EndLoopingthroughUniqueIDs
-            } //Endfileoutput
+                }
+                if (isfound == false)
+                {
+                    const string notfound = "0";
+                    //Write Zeros or #NA for the data output for that line.
+                    outputRow.Append(pgId);
+                    outputRow.Append(delimiter);
+                    if (per.Whitelisted)
+                    {
+                        // Some special logic if whitelist isnt found needs to go here. Need to handle this somehow
+                        string stringtolookup = pgId.Split('.')[0];
+                        outputRow.Append(Utilities.LookupWhiteListedBasedonId(per.WhitelistDictionary, stringtolookup));
+                        //sb.Append(notfound);
+                        outputRow.Append(delimiter);
+                    }
+
+                    //sb.Append(notfound);
+                    //sb.Append(delimiter);
+                    outputRow.Append(notfound);
+                    outputRow.Append(delimiter);
+                    outputRow.Append(notfound);
+                    outputRow.Append(delimiter);
+                    outputRow.Append(notfound);
+                    outputRow.Append(delimiter);
+                    outputRow.Append(notfound);
+                    outputRow.Append(delimiter);
+                    if (per.OutputUNSAF)
+                    {
+                        outputRow.Append(notfound);
+                        outputRow.Append(delimiter);
+                    }
+                    if (per.OutPutNSAF)
+                    {
+                        outputRow.Append(notfound);
+                        outputRow.Append(delimiter);
+                    }
+                    if (per.OutputDNSAF)
+                    {
+                        outputRow.Append(notfound);
+                        outputRow.Append(delimiter);
+                    }
+                }
+            }
+            return outputRow;
+        }
+
+        public static List<String> GenerateUniqueListofProteinGroups(List<ProteomicsExperimentRun> perlist)
+        {
+            List<String> uniqueListOfProteins = new List<String>();
+            foreach (ProteomicsExperimentRun per in perlist)
+            {
+                foreach (ProteinGroup pg in per.ProteingroupList.Pglist)
+                {
+                    if (!uniqueListOfProteins.Contains(pg.ProteingroupId))
+                    {
+                        uniqueListOfProteins.Add(pg.ProteingroupId);
+                    }
+                }
+            }
+            return uniqueListOfProteins;
         }
     }
 }

@@ -291,8 +291,15 @@ namespace Morpheus_Spectral_Count_with_GUI
 
         private void button5_Click(object sender, EventArgs e)
         {
-            Form2 frm2 = new Form2();
+            Form2 frm2 = new Form2(MsfMorpheusSummaryFile);
             frm2.Show();
+            //Set labeledSummaryFile up as an object in form1?
+            //frm2.morpheusSummaryFileLabeled;
+        }
+
+        private void groupBox3_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

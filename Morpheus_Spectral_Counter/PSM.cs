@@ -5,7 +5,8 @@ using System.Text;
 
 namespace Morpheus_Spectral_Counter
 {
-    public class Psm : IQValue
+    [Serializable]
+    public class Psm : IQValue, ICloneable
     {
         public string RawdataFilename { get; set; }
         public int SpectrumNum { get; set; }
@@ -28,6 +29,12 @@ namespace Morpheus_Spectral_Counter
 
         public List<ProteinGroup> MatchingProteingroupList = new List<ProteinGroup>();
         public List<Protein> MatchingProteinList = new List<Protein>();
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+
 
         public int NumberOfProteinsMatching
         {

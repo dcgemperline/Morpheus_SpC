@@ -103,19 +103,57 @@ namespace Morpheus_Spectral_Counter
                 }
             }
 
+
+
+
             //Split the PSMS by experimentID and add to the ProteomicsExperimentRuns in the MorpheusSummaryFileObject
             int counter = 0;
 
             foreach (ProteomicsExperimentRun per in msf.ProteomicsExperimentRunsInSummaryFile)
             {
-                foreach (Psm psm in perSummary.PsmList.PeptideSpectraMatchListist)
+                //If it is starred it comes from a parentfolderofexperiments
+                if (per.ExperimentId.Contains("*"))
                 {
-                    if (Path.GetFileNameWithoutExtension(psm.RawdataFilename) == per.ExperimentId)
+                    foreach (Psm psm in perSummary.PsmList.PeptideSpectraMatchListist)
                     {
-                        per.PsmList.PeptideSpectraMatchListist.Add(psm);
+                        string parentdirectory;
+                        DirectoryInfo dinfo;
+                        string fulldirectorypath = Path.GetFullPath(psm.RawdataFilename);
+                        dinfo = Directory.GetParent(fulldirectorypath);
+                        parentdirectory = dinfo.Name;
 
+                        string newexperimentid = per.ExperimentId;
+
+                        newexperimentid = newexperimentid.Replace("*", string.Empty);
+
+                        if (parentdirectory == newexperimentid)
+                        {
+                            
+                            Psm psmtoadd = new Psm();
+                            psmtoadd = psm.DeepClone();
+                            per.PsmList.PeptideSpectraMatchListist.Add(psmtoadd);
+                            
+                        }
                     }
                 }
+                else
+                {
+                    foreach (Psm psm in perSummary.PsmList.PeptideSpectraMatchListist)
+                    {
+                        if (Path.GetFileNameWithoutExtension(psm.RawdataFilename) == per.ExperimentId)
+                        {
+                            
+                            Psm psmtoadd = new Psm();
+                            psmtoadd = psm.DeepClone();
+                            per.PsmList.PeptideSpectraMatchListist.Add(psmtoadd);
+                             
+
+                            //per.PsmList.PeptideSpectraMatchListist.Add(psm);
+                        }
+                    }  
+                }
+
+                
                 //Determine which proteingroups have evidence using Utilities.ProteinGroupsWithEvidence(PSMS in 1 experiment, All ProteinGroups)
                 //This returns only protein groups with evidence
                 //Set the proteomics experiment run with the return proteingroups that have evidence
@@ -139,6 +177,8 @@ namespace Morpheus_Spectral_Counter
                 PsmSummarizer.UniqueSPectralAbundanceFactorNormalizer(per);
 
                 // Whitelisting will not match Decoy's
+
+                //Problem whitelisting with grouped folders, need a check here?
                 if (WhiteListActive)
                 {
                     ProteomicsExperimentRun whiteListedProteomicsExperimentRun = new ProteomicsExperimentRun();

@@ -306,6 +306,24 @@ namespace Morpheus_Spectral_Counter
             return ((double)psmsWithMissedCleavagesCounter / per.PsmList.PeptideSpectraMatchListist.Count) * 100;
         }
 
+        public static void MissedCleavageReport(List<ProteomicsExperimentRun> pers, String outputpath)
+        {
+            const string missedcleavagelogfilelabel = "missed_cleavages_log.tsv";
+            const string delimiter = "\t";
+            const string header = "Experiment\tPercent Missed Cleavages";
+            using (StreamWriter sw = new StreamWriter(Path.Combine(outputpath ,missedcleavagelogfilelabel)))
+            {
+                sw.WriteLine(header);
+                foreach (ProteomicsExperimentRun per in pers)
+                {
+                    sw.Write(per.ExperimentId);
+                    sw.Write(delimiter);
+                    double percentmissedcleavages = CalculatePercentofPeptidesWithMissedCleavages(per);
+                    sw.WriteLine(percentmissedcleavages);
+                }
+            } //Endfileoutput
+        }
+
 
         //This is really inefficient to pass using serialization.
         //Maybe try and implement something else

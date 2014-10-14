@@ -199,6 +199,7 @@ namespace Morpheus_Spectral_Counter
                 ReportProgress(percenttoreport);
             }
             ProteomicsExperimentOutputExporter.ExportNsafSummary(Proteomicrunlist, outputdirectory);
+            Utilities.MissedCleavageReport(Proteomicrunlist, outputdirectory);
         }
 
         public void SummarizeDataFromSummaryFilebyExperimentalDesign(MorpheusSummaryFile msf, string outputdirectory, ExperimentalDesign experimentalDesign)

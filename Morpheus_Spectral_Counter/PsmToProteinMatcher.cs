@@ -39,7 +39,7 @@ namespace Morpheus_Spectral_Counter
 
                     //This logic with addedGroup boolean adds a matching protein group only once.
                     //The logic may need to be fixed to better match abacus in choosing 1 protein group to represent the data
-                    //Although, based on the TAIRdataset, everything should be unique identifiers
+                    //Although, based on the most data sets, everything should have a unique identifier in the fasta file
                     if (addedGroup)
                     {
                         psm.MatchingProteingroupList.Add(pg);

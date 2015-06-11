@@ -98,6 +98,43 @@ namespace Morpheus_Spectral_Counter
             }
         }
 
+        public static void CalculateIonCurrentIntensities(ProteomicsExperimentRun per)
+        {
+            /*
+            foreach (ProteinGroup pg in per.ProteingroupList.Pglist)
+            {
+                double summedprecursurintensity;
+                double summedmatchedms2intensity;
+                double sharedsummedprecursurintensity;
+                double sharedsummedmatchedms2intensity;
+
+                foreach (Psm psm in per.PsmList.PeptideSpectraMatchListist)
+                {
+                    if ((psm.MatchingProteingroupList.Count == 1) && (psm.MatchingProteingroupList.Contains(pg)))
+                    {
+                        summedprecursurintensity += psm.PrecurserIntensity;
+                        summedmatchedms2intensity += psm.MatchingMs2Intensity;
+                    }
+                    if (psm.MatchingProteingroupList.Contains(pg))
+                    {
+                        sharedsummedprecursurintensity += psm.PrecurserIntensity;
+                        sharedsummedmatchedms2intensity += psm.PrecurserIntensity;
+                    }
+                    if (psm.MatchingProteingroupList.Contains(pg) && (psm.MatchingProteingroupList.Count > 1))
+                    {
+                        foreach (ProteinGroup sharedpg in psm.MatchingProteingroupList)
+                        {
+                            if (!pg.SharedGroupList.Contains(sharedpg))
+                            {
+                                pg.SharedGroupList.Add(sharedpg);
+                            }
+                        }
+                    }
+                }
+            }
+             */
+        }
+
         // Todo implement cNSAF
         // http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3033667/
         // Problem here where we need to figure out how and what to output, if we whitelist a bunch of stuff should we return

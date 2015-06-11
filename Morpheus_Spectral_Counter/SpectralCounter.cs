@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Morpheus_Spectral_Counter
@@ -93,12 +94,13 @@ namespace Morpheus_Spectral_Counter
             //This fixes the problem with each proteingroup object populating as the same object into each experiment, and will causes calculation problems
             //Had to switch over to a DeepCloneExtensionMethod as it faithfully copies all the data
             //MemberwiseClone causes some problems with state and induces some NaN values into the CorrectedPeptideCount
-            foreach (ProteomicsExperimentRun per in msf.ProteomicsExperimentRunsInSummaryFile)
+            foreach(ProteomicsExperimentRun per in msf.ProteomicsExperimentRunsInSummaryFile)
             {
-                foreach (ProteinGroup pg in perSummary.ProteingroupList.Pglist)
+                foreach(ProteinGroup pg in perSummary.ProteingroupList.Pglist)
                 {
                     ProteinGroup ClonedPg = new ProteinGroup();
-                    ClonedPg = pg.DeepClone();
+                    //ClonedPg = pg.DeepClone();
+                    ClonedPg = pg.CloneBaseData();
                     per.ProteingroupList.Pglist.Add(ClonedPg);
                 }
             }
@@ -109,7 +111,8 @@ namespace Morpheus_Spectral_Counter
             //Split the PSMS by experimentID and add to the ProteomicsExperimentRuns in the MorpheusSummaryFileObject
             int counter = 0;
 
-            foreach (ProteomicsExperimentRun per in msf.ProteomicsExperimentRunsInSummaryFile)
+            foreach(ProteomicsExperimentRun per in msf.ProteomicsExperimentRunsInSummaryFile)
+            //Parallel.ForEach(msf.ProteomicsExperimentRunsInSummaryFile, per =>
             {
                 //If it is starred it comes from a parentfolderofexperiments
                 if (per.ExperimentId.Contains("*"))
@@ -128,11 +131,12 @@ namespace Morpheus_Spectral_Counter
 
                         if (parentdirectory == newexperimentid)
                         {
-                            
+
                             Psm psmtoadd = new Psm();
-                            psmtoadd = psm.DeepClone();
+                            //psmtoadd = psm.DeepClone();
+                            psmtoadd = (Psm) psm.CloneBaseData();
                             per.PsmList.PeptideSpectraMatchListist.Add(psmtoadd);
-                            
+
                         }
                     }
                 }
@@ -142,28 +146,29 @@ namespace Morpheus_Spectral_Counter
                     {
                         if (Path.GetFileNameWithoutExtension(psm.RawdataFilename) == per.ExperimentId)
                         {
-                            
+
                             Psm psmtoadd = new Psm();
-                            psmtoadd = psm.DeepClone();
+                            //psmtoadd = psm.DeepClone();
+                            psmtoadd = (Psm) psm.CloneBaseData();
                             per.PsmList.PeptideSpectraMatchListist.Add(psmtoadd);
-                             
+
 
                             //per.PsmList.PeptideSpectraMatchListist.Add(psm);
                         }
-                    }  
+                    }
                 }
 
-                
+
                 //Determine which proteingroups have evidence using Utilities.ProteinGroupsWithEvidence(PSMS in 1 experiment, All ProteinGroups)
                 //This returns only protein groups with evidence
                 //Set the proteomics experiment run with the return proteingroups that have evidence
                 per.ProteingroupList = Utilities.ProteinGroupsWithEvidence(per.PsmList, per.ProteingroupList);
-                
+
                 //Transfer Flags for Output
                 per.OutPutNSAF = perSummary.OutPutNSAF;
                 per.OutputDNSAF = perSummary.OutputDNSAF;
                 per.OutputUNSAF = perSummary.OutputUNSAF;
-                
+
 
                 //Match all PSMs from 1 experiment to these protein groups using PsmsToProteinMatcher
                 PsmToProteinMatcher.MatchPsmsToProteins(per);
@@ -182,7 +187,8 @@ namespace Morpheus_Spectral_Counter
                 if (WhiteListActive)
                 {
                     ProteomicsExperimentRun whiteListedProteomicsExperimentRun = new ProteomicsExperimentRun();
-                    whiteListedProteomicsExperimentRun = Utilities.FilterProteomicsExperimentByWhiteListForOutput(per, Utilities.GetWhitelist(WhiteList));
+                    whiteListedProteomicsExperimentRun = Utilities.FilterProteomicsExperimentByWhiteListForOutput(per,
+                        Utilities.GetWhitelist(WhiteList));
                     Proteomicrunlist.Add(whiteListedProteomicsExperimentRun);
                     ProteomicsExperimentOutputExporter.Export(whiteListedProteomicsExperimentRun, outputdirectory);
                 }
@@ -197,9 +203,9 @@ namespace Morpheus_Spectral_Counter
                 double percent = (doublecounter/numberofruns)*100;
                 int percenttoreport = (int) percent;
                 ReportProgress(percenttoreport);
-            }
+            }//);
             ProteomicsExperimentOutputExporter.ExportNsafSummary(Proteomicrunlist, outputdirectory);
-            Utilities.MissedCleavageReport(Proteomicrunlist, outputdirectory);
+            //Utilities.MissedCleavageReport(Proteomicrunlist, outputdirectory); 
         }
 
         public void SummarizeDataFromSummaryFilebyExperimentalDesign(MorpheusSummaryFile msf, string outputdirectory, ExperimentalDesign experimentalDesign)

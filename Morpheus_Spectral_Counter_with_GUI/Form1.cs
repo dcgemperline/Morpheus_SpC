@@ -216,6 +216,24 @@ namespace Morpheus_Spectral_Count_with_GUI
             return returnstring;
         }
 
+        public string OutputDirectorySelector(TextBox textbox)
+        {
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            fbd.SelectedPath = AnalysisDirectory;
+            DialogResult dr = fbd.ShowDialog();
+            string returnstring = "";
+            if (dr == System.Windows.Forms.DialogResult.OK)
+            {
+                textbox.Clear();
+                returnstring = fbd.SelectedPath;
+                textbox.AppendText(returnstring);
+            }
+            return returnstring;
+        }
+
+
+
+
         private bool FileExists(string rootpath, string filename)
         {
             if (File.Exists(Path.Combine(rootpath, filename)))
@@ -252,7 +270,10 @@ namespace Morpheus_Spectral_Count_with_GUI
 
         private void button4_Click(object sender, EventArgs e)
         {
-            Outputdirectory = DirectorySelector(textBox3);
+
+            Outputdirectory = OutputDirectorySelector(textBox3);
+
+
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -12,6 +13,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using Morpheus_Spectral_Counter;
 using Morpheus_Spectral_Counter_with_GUI;
+
 
 namespace Morpheus_Spectral_Count_with_GUI
 {
@@ -35,6 +37,7 @@ namespace Morpheus_Spectral_Count_with_GUI
         public string Outputdirectory { get; set; }
         public string DefaultOutputDirectory { get; set; }
         MorpheusSummaryFile MsfMorpheusSummaryFile { get; set; }
+        Stopwatch sw = new Stopwatch();
 
 
         public Form1()
@@ -59,6 +62,7 @@ namespace Morpheus_Spectral_Count_with_GUI
                 MsfMorpheusSummaryFile = new MorpheusSummaryFile(SummaryFileToProcess);
                 DefaultOutputDirectory = Path.GetDirectoryName(SummaryFileToProcess);
                 Outputdirectory = DefaultOutputDirectory;
+                textBox3.Clear();
                 textBox3.AppendText(Outputdirectory);
                 textBox1.Clear();
                 StringBuilder sb = new StringBuilder();
@@ -279,7 +283,9 @@ namespace Morpheus_Spectral_Count_with_GUI
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             //Process Data
-            SpectralCounter sp = new SpectralCounter();
+            
+            sw.Start();
+                SpectralCounter sp = new SpectralCounter();
             sp.WhiteListActive = checkBox1.Checked;
             sp.WhiteList = WhiteList;
             sp.ReportProgressDelegate = backgroundWorker1.ReportProgress;
@@ -308,6 +314,13 @@ namespace Morpheus_Spectral_Count_with_GUI
             groupBox3.Enabled = true;
             groupBox4.Enabled = true;
             button3.Enabled = true;
+            sw.Stop();
+
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(Outputdirectory + "\\timelog.txt"))
+            {
+                file.WriteLine("Total Elapsed Time in Minutes: {0}", sw.Elapsed.TotalMinutes.ToString());
+            }
+            
         }
 
         private void button5_Click(object sender, EventArgs e)

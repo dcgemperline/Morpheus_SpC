@@ -56,7 +56,8 @@ namespace Morpheus_Spectral_Counter
             }
         }
         
-        // The following three methods can probably be collapsed to traverse the pg list only twice?
+        // The following three methods can probably be collapsed to traverse the pg list only twice but for
+        //  the sake of readability are left as seperate methods
         public static void CorrectedSpectralAbundanceFactorNormalizer(ProteomicsExperimentRun per)
         {
             double totalSpectralAbundanceFactors = 0;
@@ -98,6 +99,7 @@ namespace Morpheus_Spectral_Counter
             }
         }
 
+        //Not Implemented Yet
         public static void CalculateIonCurrentIntensities(ProteomicsExperimentRun per)
         {
             /*

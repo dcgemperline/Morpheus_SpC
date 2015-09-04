@@ -31,6 +31,8 @@ namespace Morpheus_Spectral_Counter
         //This needs to be modified with unique length as per washburn's paper that describes, only divgiding by unique length improves performance overall
         public double UniqueSpectralAbundanceFactor { get { return (double) UniquePsms/AverageLength; } }
         public double AverageLength { get { return CalculateAverageProteinLength(); } }
+
+        
         public double TotalPsms { get { return CalculateTotalPsms(); } }
         public int ProteinCount{get { return ProteingroupList.Count; } }
         public double TotalCorrectedPsms { get { return CalculateTotalCorrectedPsms(); } }
@@ -38,6 +40,15 @@ namespace Morpheus_Spectral_Counter
         public List<Protein> ProteingroupList = new List<Protein>();
         public List<ProteinGroup> SharedGroupList = new List<ProteinGroup>();
 
+        //Unused but could be adapted to calculate more refined forms of NSAF,uNSAF, and dNSAF
+        /*
+        public double SharedDetectedLength { get; set; }
+        public double UniqueDetectedLength { get; set; }
+        public double IdentifiedResidueLength { get { return AverageSequenceCoverage * AverageLength; } }
+        public List<String> DetectedUniquePeptides = new List<String>();
+        public List<String> SharedUniquePeptides = new List<String>();
+         */
+        
         //Methods
         public ProteinGroup CloneBaseData()
         {

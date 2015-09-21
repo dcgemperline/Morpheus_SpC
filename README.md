@@ -1,5 +1,3 @@
-Morpheus Spectral Counter
-Morpheus_SpC
 MSpC
 ============
 

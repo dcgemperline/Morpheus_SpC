@@ -2,7 +2,7 @@ MSpC
 ============
 
 Morpheus Spectral Counter or MSpC
-
+[Check out the program here](http://dcgemperline.github.io/Morpheus_SpC)
 This is a an application for Spectral Count Based Label-free Quantitative (LFQ) proteomics that integrates with the Morpheus Mass Spectrometry Search Engine. It is developed in C# and is open sourced under an [MIT License](LICENSE.md).
 
 To use this software your data must be searched with the Morpheus Mass Spectrometry Search Engine.

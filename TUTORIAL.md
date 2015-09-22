@@ -11,6 +11,7 @@
 * Download and install [MSpC](https://github.com/dcgemperline/Morpheus_SpC/releases/download/v1.0/MSpC_v1.0.zip)
 	* MSpC depends on the latest .NET Runtime that will be installed with MSpC installer if it is not already installed
 * Download the data files from here: [Data Files]()
+
 ------------------------------
 ## Data Analysis Starting from .raw files
 
@@ -49,6 +50,7 @@
     * Let's press Select Output Directory then Make a New Folder here called MSpC Output, press OK.
 19. Press Summarize Data, and the progress bar will indicate the progress of MSpC. This should take ~ 30 seconds or less
 20. The MSpC Output folder will then contain NSAF summaries for each individual .raw file, as well as a summary for all .raw files analyzed. These files are in the tab delimited output format .tsv
+
 ------------------------------
 ## Data Analysis Starting from previously searched Morpheus Data
 1. It is strongly suggested, that you start with the Data Analysis from .raw files tutorial first, and then refer back to the tutorial for previously searched Morpheus data if necessary

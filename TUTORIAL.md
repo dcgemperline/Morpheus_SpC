@@ -10,7 +10,7 @@
 * Download pre-compiled binaries of revision 151 of the [Morpheus Mass Spectrometry Search Engine (Thermo Version)](https://github.com/dcgemperline/Morpheus_SpC/releases/download/v1.0/Morpheus.Binaries.revision.151.zip), referred from here on out as just Morpheus
 * Download and install [MSpC](https://github.com/dcgemperline/Morpheus_SpC/releases/download/v1.0/MSpC_v1.0.zip)
 	* MSpC depends on the latest .NET Runtime that will be installed with MSpC installer if it is not already installed
-* Download the data files from here: [Data Files]()
+* Download the data files from the PRIDE proteomics data repository using the following ID - PXD003002  [Data Files](http://www.ebi.ac.uk/pride/archive/)
 
 ------------------------------
 ## Data Analysis Starting from .raw files

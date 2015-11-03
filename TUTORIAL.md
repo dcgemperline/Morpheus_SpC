@@ -31,9 +31,10 @@
    * 04_28_15_D_rep1_c1.raw
    * 04_28_15_D_rep2_c1.raw
    * 04_28_15_D_rep3_c1.raw
-5. Browse for the fasta file contained in the Data Files Folder **uniprot_k12_e_coli_contams_plus_proteasome_and_interactors.fasta**.
-6. Verify that Create Target-Decoy Database On The Fly is checked.
-7. Browse for an Output Folder. In this tutorial select browse, leave the default Desktop location highlighted and press Make a New Folder and rename it Morpheus Analysis. Press OK. You should now have a folder on the desktop called Morpheus Analysis, and Morpheus should say you are outputting data to the following output folder, where _NAME_ is your username on your machine.
+5. Side Note on Fractionation: If you would like Morpheus, and thus MSpC to output summaries for a set of data by adding up all of the spectra identified in that dataset(as the case may be for fractionation data), place the files you would like to be summarized in seperate folders, such as SampleSet1, Sampleset2, and Morphues will generate protein_groups.tsv and PSMs.tsv specifically for each sampleset. Later in MSpC after selecting the summary.tsv file these will show up as SampleSet1\*, SampleSet2\*, etc.
+6. Browse for the fasta file contained in the Data Files Folder **uniprot_k12_e_coli_contams_plus_proteasome_and_interactors.fasta**.
+7. Verify that Create Target-Decoy Database On The Fly is checked.
+8. Browse for an Output Folder. In this tutorial select browse, leave the default Desktop location highlighted and press Make a New Folder and rename it Morpheus Analysis. Press OK. You should now have a folder on the desktop called Morpheus Analysis, and Morpheus should say you are outputting data to the following output folder, where _NAME_ is your username on your machine.
 	* C:\Users\\_NAME_\Desktop\Morpheus Analysis
 8. Set the Maximum threads to 2, for a dual core processor, 4 for a quad core processor, 8 for a quad core processor with hyperthreading, and 8 for an 8 core processor. These are reasonable values that will give you decent performance with Morpheus.
 9. Press Search, and the progress bar will indicate search progress for each raw file. On an Intel Core i7 2700K with Morpheus set to use 8 threads, this takes approximately 4.5 minutes.
@@ -42,7 +43,7 @@
 12. The indicators in Summary Directory Contains Valid Input should be red.
 13. Press the Select the Summary File button and navigate to the summary.tsv file contained in the Morpheus Analysis folder on the Desktop.
     * C:\Users\\_NAME_\Desktop\Morpheus Analysis\summary.tsv
-14. The indicators in Summary Directory Contains Valid Input should now read green indicating that the Morpheus Analysis folder contains all the necessary files from Morpheus to run.
+14. The indicators in Summary Directory Contains Valid Input should now read green indicating that the Morpheus Analysis folder contains all the necessary files from Morpheus to run. (The files requried to be in the same directory as summary.tsv are protein_groups.tsv and PSMs.tsv. This will automatically occur if you output all of your Morpheus output into a single output folder.)
 15. (Optionally) Select the provided whitelist file contained in the Data Files folder that you downloaded to simplify the output.
 16. Select your desired PSM FDR and Protein FDR (although the default options of 1% are good default options).
 17. Check or uncheck boxes of the desired calculations (NSAF, dNSAF, uNSAF)

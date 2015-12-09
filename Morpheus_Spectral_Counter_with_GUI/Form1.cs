@@ -36,6 +36,7 @@ namespace Morpheus_Spectral_Count_with_GUI
         private string ProteinGroupFile = "protein_groups.tsv";
         public string Outputdirectory { get; set; }
         public string DefaultOutputDirectory { get; set; }
+        public int MinimumUniquePeptidesForQuantification { get { return  Decimal.ToInt32(numericUpDown3.Value); } }
         MorpheusSummaryFile MsfMorpheusSummaryFile { get; set; }
         Stopwatch sw = new Stopwatch();
 
@@ -291,6 +292,7 @@ namespace Morpheus_Spectral_Count_with_GUI
             sp.ReportProgressDelegate = backgroundWorker1.ReportProgress;
             sp.PeptideFDR = PeptideFalseDiscoveryRate;
             sp.ProteinFDR = ProteinFalseDiscoveryRate;
+            sp.MinimumNumberOfUniquePeptidesRequired = MinimumUniquePeptidesForQuantification;
             MorpheusSummaryFile msf = new MorpheusSummaryFile(SummaryFileToProcess);
             sp.ProteinFDR = ProteinFalseDiscoveryRate;
             sp.PeptideFDR = PeptideFalseDiscoveryRate;
@@ -331,9 +333,5 @@ namespace Morpheus_Spectral_Count_with_GUI
             //frm2.morpheusSummaryFileLabeled;
         }
 
-        private void groupBox3_Enter(object sender, EventArgs e)
-        {
-
-        }
     }
 }

@@ -13,6 +13,9 @@ namespace Morpheus_Spectral_Counter
         {
             MatchPsmsToProteins(per);
         }
+
+
+
         public static void MatchPsmsToProteins(ProteomicsExperimentRun per)
         {
             ProteinGroupList pgl = per.ProteingroupList;
@@ -29,7 +32,16 @@ namespace Morpheus_Spectral_Counter
                         {
                             psm.MatchingProteinList.Add(p);
                             addedGroup = true;
+
+                            //Add Base Peptide Sequence to the Protein Group if it is Not already there
+                            //This aids in calculating # of Unique Peptides for a particular Experiment
+                            if (!pg.UniquePeptideHashSet.Contains(psm.PeptideBaseSequence))
+                            {
+                                pg.UniquePeptideHashSet.Add(psm.PeptideBaseSequence);
+                            }
+                                
                         }
+                        
                     }
 
                     if (psm.NumberOfProteinsMatching > 0)

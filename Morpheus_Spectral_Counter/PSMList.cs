@@ -14,5 +14,10 @@ namespace Morpheus_Spectral_Counter
         {
             PeptideSpectraMatchListist = Utilities.FilterByQValue(PeptideSpectraMatchListist, QValueThreshold);
         }
+
+        public void FilterByPredicate(Predicate<Psm> predicate)
+        {
+            PeptideSpectraMatchListist = PeptideSpectraMatchListist.FindAll(predicate);
+        }
     }
 }

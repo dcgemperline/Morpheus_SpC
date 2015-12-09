@@ -72,6 +72,10 @@
   <ItemGroup>
     <Compile Include="Experiment.cs" />
     <Compile Include="ExperimentalDesign.cs" />
+    <Compile Include="IMinimumUniquePeptideValue.cs" />
+    <Compile Include="IMinimumUniquePeptideValueFilterable.cs" />
+    <Compile Include="IUniquePSMValue.cs" />
+    <Compile Include="IMinimumUniquePSMValueFilterable.cs" />
     <Compile Include="IQValue.cs" />
     <Compile Include="LabelFreeQuantifiedProteomicsRun.cs" />
     <Compile Include="MorpheusSummaryFile.cs" />
@@ -80,6 +84,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protein.cs" />
     <Compile Include="ProteinGroup.cs" />
+    <Compile Include="ProteinGroupPredicate.cs" />
     <Compile Include="ProteinGroupList.cs" />
     <Compile Include="ProteomicsExperimentRun.cs" />
     <Compile Include="ProteomicsExperimentOutputExporter.cs" />

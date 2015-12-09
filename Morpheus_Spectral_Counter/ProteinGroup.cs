@@ -25,10 +25,12 @@ namespace Morpheus_Spectral_Counter
         public double PrecursurIntensity { get; set; }
         public double MatchingMs2Intensity { get; set; }
 
+        public double NumberOfUniquePeptides { get { return UniquePeptideHashSet.Count(); } }
+
         public double AverageSequenceCoverage { get { return CalculateProteinSequenceCoverage(); } }
         public double CorrectedSpectralAbundanceFactor { get { return (double)TotalCorrectedPsms / AverageLength; } }
         public double SpectralAbundanceFactor { get { return (double)TotalPsms / AverageLength; } }
-        //This needs to be modified with unique length as per washburn's paper that describes, only divgiding by unique length improves performance overall
+        //This needs to be modified with unique length as per washburn's paper that describes, only dividing by unique length improves performance overall
         public double UniqueSpectralAbundanceFactor { get { return (double) UniquePsms/AverageLength; } }
         public double AverageLength { get { return CalculateAverageProteinLength(); } }
 
@@ -39,7 +41,7 @@ namespace Morpheus_Spectral_Counter
 
         public List<Protein> ProteingroupList = new List<Protein>();
         public List<ProteinGroup> SharedGroupList = new List<ProteinGroup>();
-
+        public HashSet<String> UniquePeptideHashSet = new HashSet<string>(); 
         //Unused but could be adapted to calculate more refined forms of NSAF,uNSAF, and dNSAF
         /*
         public double SharedDetectedLength { get; set; }
@@ -83,6 +85,7 @@ namespace Morpheus_Spectral_Counter
             return proteinGroupToReturn;
         }
 
+       
         public double CalculateProteinSequenceCoverage()
         {
             double averageProteinSequenceCoverage = 0;
@@ -105,6 +108,8 @@ namespace Morpheus_Spectral_Counter
             proteinLengthAverage = (double) summedProteinLength/ProteingroupList.Count;
             return proteinLengthAverage;
         }
+
+
 
         public double CalculateTotalCorrectedPsms()
         {

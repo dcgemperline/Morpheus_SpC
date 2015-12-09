@@ -20,7 +20,10 @@ namespace Morpheus_Spectral_Counter
         public bool uNSAF { get; set; }
         public double ProteinFDR { get; set; }
         public double PeptideFDR { get; set; }
+        public int MinimumNumberOfPSMsRequired { get; set; }
+        public int MinimumNumberOfUniquePeptidesRequired { get; set; }
         public Action<int> ReportProgressDelegate { get; set; }
+
 
 
         private void ReportProgress(int percent)
@@ -82,9 +85,13 @@ namespace Morpheus_Spectral_Counter
             perSummary.OutPutNSAF = NSAF;
             perSummary.OutputDNSAF = dNSAF;
             perSummary.OutputUNSAF = uNSAF;
+            perSummary.MinUniqPsm = MinimumNumberOfPSMsRequired;
+            perSummary.MinUniqPep = MinimumNumberOfUniquePeptidesRequired;
             
             //Filter Out Q Values
             Utilities.FilterProteomicsExperimentByQValue(perSummary, ProteinFDR, PeptideFDR);
+            
+            //Predicate Filter
 
 
             //Figure out how to handle decoys if neccesary
@@ -168,13 +175,22 @@ namespace Morpheus_Spectral_Counter
                 per.OutPutNSAF = perSummary.OutPutNSAF;
                 per.OutputDNSAF = perSummary.OutputDNSAF;
                 per.OutputUNSAF = perSummary.OutputUNSAF;
-
+                per.MinUniqPep = perSummary.MinUniqPep;
+                
 
                 //Match all PSMs from 1 experiment to these protein groups using PsmsToProteinMatcher
                 PsmToProteinMatcher.MatchPsmsToProteins(per);
 
+                //FilterPsm's and Protein Group's based on predicate
+
+                ProteinGroupPredicate pgp = new ProteinGroupPredicate(per.MinUniqPep);
+
+
+                per.ProteingroupList.FilterbyPredicate(pgp.BuildProteinGroupPredicate());
+
                 //Run PSMSummarizer
                 PsmSummarizer.CalculateUniqueAndSharedPsms(per);
+
                 //After Calculating Adjusted Psms, NaN propigates
                 PsmSummarizer.CalculateAdjustedPsms(per);
                 PsmSummarizer.CorrectedSpectralAbundanceFactorNormalizer(per);

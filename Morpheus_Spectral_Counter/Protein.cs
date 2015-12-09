@@ -11,6 +11,7 @@ namespace Morpheus_Spectral_Counter
         public string ProteinId { get; set; }
         public string Sequence { get; set; }
         public double SequenceCoverage { get; set; }
+        public double UniquePeptides { get; set; }
 
 
         public Protein CloneBaseData()
@@ -19,7 +20,8 @@ namespace Morpheus_Spectral_Counter
             {
                 ProteinId = ProteinId,
                 Sequence = Sequence,
-                SequenceCoverage = SequenceCoverage
+                SequenceCoverage = SequenceCoverage,
+                UniquePeptides = UniquePeptides
             };
 
             return proteinToReturn;

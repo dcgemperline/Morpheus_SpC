@@ -19,5 +19,7 @@ namespace Morpheus_Spectral_Counter
         public bool OutputDNSAF { get; set; }
         public bool OutputUNSAF { get; set; }
         public Dictionary<string, string> WhitelistDictionary { get; set; } 
+        public int MinUniqPep { get; set; }
+        public int MinUniqPsm { get; set; }
     }
 }

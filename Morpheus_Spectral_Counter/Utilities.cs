@@ -10,6 +10,7 @@ namespace Morpheus_Spectral_Counter
 {
     static class Utilities
     {
+        //This method is depreciated and not called in the current version
         public static ProteomicsExperimentRun ImportMorpheusData(string baseFilename)
         {
             string psmFileToOpen = baseFilename + ".PSMs.tsv";
@@ -71,6 +72,7 @@ namespace Morpheus_Spectral_Counter
             return per;
         }
 
+        //This is the primary method used to import the data
         public static ProteomicsExperimentRunSummary ImportMorpheusDataSummary(MorpheusSummaryFile msf)
         {
             // Select the Summary File to get all the files that were run together
@@ -147,6 +149,7 @@ namespace Morpheus_Spectral_Counter
                 string[] proteins = dataline[0].Split(splitOn, StringSplitOptions.None);
                 string[] proteinseq = dataline[1].Split(splitOn, StringSplitOptions.None);
                 string[] seqcoverages = dataline[8].Split(splitOnSequenceCoverage, StringSplitOptions.None);
+                string[] uniquepeptides = dataline[5].Split(splitOnSequenceCoverage, StringSplitOptions.None);
                 for (int index = 0; index < proteins.Length; index++)
                 {
                     Protein p = new Protein

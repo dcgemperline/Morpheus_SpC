@@ -149,7 +149,6 @@ namespace Morpheus_Spectral_Counter
                 string[] proteins = dataline[0].Split(splitOn, StringSplitOptions.None);
                 string[] proteinseq = dataline[1].Split(splitOn, StringSplitOptions.None);
                 string[] seqcoverages = dataline[8].Split(splitOnSequenceCoverage, StringSplitOptions.None);
-                string[] uniquepeptides = dataline[5].Split(splitOnSequenceCoverage, StringSplitOptions.None);
                 for (int index = 0; index < proteins.Length; index++)
                 {
                     Protein p = new Protein

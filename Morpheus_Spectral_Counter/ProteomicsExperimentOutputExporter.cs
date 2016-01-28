@@ -35,6 +35,7 @@ namespace Morpheus_Spectral_Counter
                     header.Append("WhiteListID" + delimiter);
                 }
                 //header.Append("AverageSequenceCoverage" + delimiter);
+                header.Append("UniquePeptides" + delimiter);
                 header.Append("UniquePsms" + delimiter);
                 header.Append("SharedPsms" + delimiter);
                 header.Append("TotalPsms" + delimiter);
@@ -65,6 +66,7 @@ namespace Morpheus_Spectral_Counter
                     }
                     //sb.Append(pg.AverageSequenceCoverage);
                     //sb.Append(delimiter);
+                    sb.Append(pg.NumberOfUniquePeptides);
                     sb.Append(pg.UniquePsms);
                     sb.Append(delimiter);
                     sb.Append(pg.SharedPsms);
@@ -94,6 +96,7 @@ namespace Morpheus_Spectral_Counter
             
         }
 
+        //This overloaded function seems to be depreciated and no longer used
         public static void Export(List<ProteomicsExperimentRun> perlist, string outputdirectory)
         {
             //OpenFileForWriting

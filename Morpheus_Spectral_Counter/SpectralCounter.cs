@@ -182,11 +182,12 @@ namespace Morpheus_Spectral_Counter
                 PsmToProteinMatcher.MatchPsmsToProteins(per);
 
                 //FilterPsm's and Protein Group's based on predicate
-
-                ProteinGroupPredicate pgp = new ProteinGroupPredicate(per.MinUniqPep);
-
-
-                per.ProteingroupList.FilterbyPredicate(pgp.BuildProteinGroupPredicate());
+                if (per.MinUniqPep > 1)
+                {
+                    ProteinGroupPredicate pgp = new ProteinGroupPredicate(per.MinUniqPep);
+                    per.ProteingroupList.FilterbyPredicate(pgp.BuildProteinGroupPredicate());
+                }
+                
 
                 //Run PSMSummarizer
                 PsmSummarizer.CalculateUniqueAndSharedPsms(per);

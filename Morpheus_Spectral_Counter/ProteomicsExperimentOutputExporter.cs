@@ -67,6 +67,7 @@ namespace Morpheus_Spectral_Counter
                     //sb.Append(pg.AverageSequenceCoverage);
                     //sb.Append(delimiter);
                     sb.Append(pg.NumberOfUniquePeptides);
+                    sb.Append(delimiter);
                     sb.Append(pg.UniquePsms);
                     sb.Append(delimiter);
                     sb.Append(pg.SharedPsms);
